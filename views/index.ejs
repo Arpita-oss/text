@@ -30,8 +30,8 @@
                 class="ri-user-add-fill"></i></button>
             <button style="color: #aaaaaa; cursor: pointer;" onclick="createNewGroup()"> <i
                 class="ri-add-line"></i></button>
-            <a href="/edit" style="text-decoration: none; padding-top: 7px;"><i style="font-size: 25px; margin-top: 2%; cursor: pointer; color: #aaaaaa"
-                class="ri-more-2-fill"></i></a>
+            <a href="/edit" style="text-decoration: none; padding-top: 7px;"><i
+                style="font-size: 25px; margin-top: 2%; cursor: pointer; color: #aaaaaa" class="ri-more-2-fill"></i></a>
 
           </div>
         </div>
@@ -44,9 +44,7 @@
       <div id="right">
         <div class="top">
           <div id="currentChatUser" class="user" style="height: 6vh; ">
-            <img
-              src="/images/uploads/profileImage"
-              alt="">
+            <img src="profileImage" alt="">
             <h3 style="font-size: 15px; font-weight: 400;">username</h3>
           </div>
           <i class="fa fa-search fa-lg" aria-hidden="true"></i>
@@ -68,8 +66,6 @@
             <input type="text" class="input-message" placeholder="Enter Message...">
           </div>
           <button onclick="sendMessage()">send</button>
-          <!-- <input type="text" placeholder="Enter Message">
-      <button onclick="sendMessage()">send</button> -->
         </div>
       </div>
     </div>
@@ -97,22 +93,35 @@
       document.querySelector("#h1left").innerHTML = "";
     })
 
-    function putIncomingMessage(message, timestamp) {
-      const template = `<div class="msg incoming" style="display:flex; justify-content:flex-end; align-items:center;font-size:13px;">
-          ${message}
-          <div class="timestamp">${timestamp}</div>
-        </div>`;
-      document.querySelector(".conversationArea").innerHTML += template;
-    }
+    function putIncomingMessage(message, timestamp, profileImage) {
+  const template = `<div class="msg incoming" style="display:flex; justify-content:flex-start; align-items:center;font-size:13px;">
+      <div class="profile">
+        <img src="" alt="Profile Image">
+      </div>
+      <div class="message-content">
+        ${message}
+        <div class="timestamp">${timestamp}</div>
+      </div>
+    </div>`;
+  document.querySelector(".conversationArea").innerHTML += template;
+}
 
-    function OutgoingMessage(message, timestamp) {
-      const template = `<div class="msg Outgoing" style="background-color: #D9FDD3; display:flex; justify-content:flex-end; align-items:center; font-size:13px;">
-         ${message}
-         <div class="timestamp">${timestamp}</div>
-        </div>`;
-      document.querySelector(".conversationArea").innerHTML += template;
-    }
-    function sendMessage() {
+function OutgoingMessage(message, timestamp) {
+  const template = `<div class="msg Outgoing" style="background-color: #D9FDD3; display:flex; justify-content:flex-end; align-items:center; font-size:13px;">
+    <div style="margin-right: 8px;"> <!-- Add margin-right to create space -->
+      <div style="position:relative; width:20px; height:20px; border-radius:50%; overflow:hidden;" class="profile">
+        <img style="object-fit:cover; object-position:center; width:100%; height:100%;" src="/images/uploads/<%= loggedInUser.profileImage %>" alt="Profile Image">
+      </div>
+    </div>
+    <div class="message-content">
+      ${message}
+      <div class="timestamp">${timestamp}</div>
+    </div>
+  </div>`;
+  document.querySelector(".conversationArea").innerHTML += template;
+}
+
+   function sendMessage() {
       const message = document.querySelector('#right .bottom input').value;
       const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
       OutgoingMessage(message, timestamp);
@@ -145,7 +154,7 @@
     function createNewConversation(profileImage, username) {
       currentChatUser = username
       document.querySelector('#main > #right').style.display = "initial";
-      document.querySelector("#currentChatUser img").setAttribute("src", profileImage);
+      document.querySelector("#currentChatUser img").setAttribute("src", "/images/uploads/" + profileImage);
       document.querySelector("#currentChatUser h3").textContent = username;
 
       socket.emit('fetch-conversation', {
@@ -157,13 +166,32 @@
 
     }
 
+    function convertToHHMM(isoString) {
+      // Create a Date object from the ISO 8601 formatted string
+      const date = new Date(isoString);
+
+      // Get hours and minutes
+      let hours = date.getHours();
+      let minutes = date.getMinutes();
+
+      // Convert hours and minutes to strings and pad with zero if necessary
+      hours = hours.toString().padStart(2, '0');
+      minutes = minutes.toString().padStart(2, '0');
+
+      // Return the formatted time string
+      return `${hours}:${minutes}`;
+    }
+
     socket.on('send-conversation', allMessages => {
       document.querySelector(".conversationArea").innerHTML = "";
       allMessages.forEach(message => {
+
+        console.log(message)
+
         if (message.sender == sender) {     //msg logged in user kr rha h
-          OutgoingMessage(message.msg);
+          OutgoingMessage(message.msg, convertToHHMM(message.createdAt));
         } else {
-          putIncomingMessage(message.msg); // Pass the message content
+          putIncomingMessage(message.msg, convertToHHMM(message.createdAt)); // Pass the message content
         }
       });
     });
@@ -200,5 +228,4 @@
     }
   </script>
 </body>
-
 </html>
