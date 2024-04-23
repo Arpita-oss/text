@@ -5,9 +5,7 @@
   <title>ChatSwift</title>
   <link rel='stylesheet' href='/stylesheets/style.css' />
   <link href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.css" rel="stylesheet" />
-  <link rel="shortcut icon"
-    href="https://i2.wp.com/www.titanui.com/wp-content/uploads/2014/02/03/iOS-Chat-App-Icon-PSD.png?fit=600%2C600&ssl=1"
-    type="image/x-icon">
+  <link rel="shortcut icon" href="https://i2.wp.com/www.titanui.com/wp-content/uploads/2014/02/03/iOS-Chat-App-Icon-PSD.png?fit=600%2C600&ssl=1" type="image/x-icon">
 </head>
 <script src="https://use.fontawesome.com/1c6f725ec5.js"></script>
 
@@ -26,12 +24,9 @@
               </h3>
             </div>
             <div style="display: flex; gap: 16px;"></div>
-            <button style="color: #aaaaaa; cursor: pointer;" onclick="joinGroup()"><i
-                class="ri-user-add-fill"></i></button>
-            <button style="color: #aaaaaa; cursor: pointer;" onclick="createNewGroup()"> <i
-                class="ri-add-line"></i></button>
-            <a href="/edit" style="text-decoration: none; padding-top: 7px;"><i
-                style="font-size: 25px; margin-top: 2%; cursor: pointer; color: #aaaaaa" class="ri-more-2-fill"></i></a>
+            <button style="color: #aaaaaa; cursor: pointer;" onclick="joinGroup()"><i class="ri-user-add-fill"></i></button>
+            <button style="color: #aaaaaa; cursor: pointer;" onclick="createNewGroup()"> <i class="ri-add-line"></i></button>
+            <a href="/edit" style="text-decoration: none; padding-top: 7px;"><i style="font-size: 25px; margin-top: 2%; cursor: pointer; color: #aaaaaa" class="ri-more-2-fill"></i></a>
 
           </div>
         </div>
@@ -89,25 +84,28 @@
     let currentChatUser = null;
     const sender = `<%= loggedInUser.username%>`
 
-    document.querySelector(".chats").addEventListener("click", function () {
+    document.querySelector(".chats").addEventListener("click", function() {
       document.querySelector("#h1left").innerHTML = "";
     })
 
-    function putIncomingMessage(message, timestamp, profileImage) {
-  const template = `<div class="msg incoming" style="display:flex; justify-content:flex-start; align-items:center;font-size:13px;">
-      <div class="profile">
-        <img src="" alt="Profile Image">
+    function putIncomingMessage(message, timestamp) {
+      const template = `<div class="msg incoming" style="display:flex; justify-content:flex-start; align-items:center;font-size:13px;">
+    <div style="margin-right: 8px;"> <!-- Add margin-right to create space -->
+      <div style="position:relative; width:20px; height:20px; border-radius:50%; overflow:hidden;" class="profile">
+        <img style="object-fit:cover; object-position:center; width:100%; height:100%;" src="/images/uploads/${currentChatUserProfileImage}" alt="Profile Image">
       </div>
+    </div>
+ 
       <div class="message-content">
         ${message}
         <div class="timestamp">${timestamp}</div>
       </div>
     </div>`;
-  document.querySelector(".conversationArea").innerHTML += template;
-}
+      document.querySelector(".conversationArea").innerHTML += template;
+    }
 
-function OutgoingMessage(message, timestamp) {
-  const template = `<div class="msg Outgoing" style="background-color: #D9FDD3; display:flex; justify-content:flex-end; align-items:center; font-size:13px;">
+    function OutgoingMessage(message, timestamp) {
+      const template = `<div class="msg Outgoing" style="background-color: #D9FDD3; display:flex; justify-content:flex-end; align-items:center; font-size:13px;">
     <div style="margin-right: 8px;"> <!-- Add margin-right to create space -->
       <div style="position:relative; width:20px; height:20px; border-radius:50%; overflow:hidden;" class="profile">
         <img style="object-fit:cover; object-position:center; width:100%; height:100%;" src="/images/uploads/<%= loggedInUser.profileImage %>" alt="Profile Image">
@@ -118,12 +116,15 @@ function OutgoingMessage(message, timestamp) {
       <div class="timestamp">${timestamp}</div>
     </div>
   </div>`;
-  document.querySelector(".conversationArea").innerHTML += template;
-}
+      document.querySelector(".conversationArea").innerHTML += template;
+    }
 
-   function sendMessage() {
+    function sendMessage() {
       const message = document.querySelector('#right .bottom input').value;
-      const timestamp = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      const timestamp = new Date().toLocaleTimeString([], {
+        hour: '2-digit',
+        minute: '2-digit'
+      });
       OutgoingMessage(message, timestamp);
       document.querySelector('#right .bottom input').value = "";
 
@@ -151,8 +152,13 @@ function OutgoingMessage(message, timestamp) {
       document.querySelector(".chats").innerHTML += template;
     }
 
+    let currentChatUserProfileImage = null;
+
     function createNewConversation(profileImage, username) {
+
       currentChatUser = username
+      currentChatUserProfileImage = profileImage
+
       document.querySelector('#main > #right').style.display = "initial";
       document.querySelector("#currentChatUser img").setAttribute("src", "/images/uploads/" + profileImage);
       document.querySelector("#currentChatUser h3").textContent = username;
@@ -188,13 +194,14 @@ function OutgoingMessage(message, timestamp) {
 
         console.log(message)
 
-        if (message.sender == sender) {     //msg logged in user kr rha h
+        if (message.sender == sender) { //msg logged in user kr rha h
           OutgoingMessage(message.msg, convertToHHMM(message.createdAt));
         } else {
           putIncomingMessage(message.msg, convertToHHMM(message.createdAt)); // Pass the message content
         }
       });
     });
+
     function createNewGroup() {
 
 
@@ -228,4 +235,5 @@ function OutgoingMessage(message, timestamp) {
     }
   </script>
 </body>
+
 </html>

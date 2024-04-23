@@ -9,10 +9,14 @@ var localStrategy = require('passport-local')
 passport.use(new localStrategy(users.authenticate()));
 
 /* GET home page. */
+
 router.get('/', isloggedIn, async function (req, res, next) {
   const loggedInUser = req.user;
+   const profileImage = loggedInUser.profileImage;
+   
   console.log(req.user);
-  res.render('index',{loggedInUser});
+
+  res.render('index',{loggedInUser, profileImage} );
 });
 
 router.post('/register', (req, res, next) => {
