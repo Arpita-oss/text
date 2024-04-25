@@ -6,6 +6,8 @@ const db = require('../db');
 const upload = require('./multer');
 var passport = require('passport')
 var localStrategy = require('passport-local')
+
+
 passport.use(new localStrategy(users.authenticate()));
 
 /* GET home page. */

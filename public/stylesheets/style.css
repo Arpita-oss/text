@@ -206,62 +206,182 @@ html,body{
 }
 
 
+  #main2{
+    height: 95%;
+    display: flex;
+    width: 100%;
+    margin-top: 2%;
+    position: relative;
+    flex-direction: column;
+  }
 
-#main2{
-  height: 95%;
-  display: flex;
-  width: 100%;
-  margin-top: 2%;
-  position: relative;
-  flex-direction: column;
-}
+  .upper{
+    width: 100%;
+    height: 80px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #008069;
+  }
 
-.upper{
-  width: 100%;
-  height: 80px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px;
-  background-color: #008069;
-}
+  .upper i{
+    font-size: 25px;
+  }
 
-.upper i{
-  font-size: 25px;
-}
+  .lower{
+    width: 100%;
+    height: calc(100% - 80px);
+  }
 
-.lower{
-  width: 100%;
-  height: calc(100% - 80px);
-}
+  .lower button{
+    font-weight: 600;
+  }
 
-.lower button{
-  font-weight: 600;
-}
+  .line{
+    width: 90%;
+    height: 0.5px;
+    margin-top: 15px;
+    margin-bottom: 10px;
+    margin-left: 5%;
+    background-color: #666;
+  }
 
-.line{
-  width: 90%;
-  height: 0.5px;
-  margin-top: 15px;
-  margin-bottom: 10px;
-  margin-left: 5%;
-  background-color: #666;
-}
+  #lower2{
+    margin-top: 60px;
+  }
 
-#lower2{
-  margin-top: 60px;
-}
+  #lower2 h3{
+    margin-left: 42.5%;
+    
+  }
 
-#lower2 h3{
-  margin-left: 42.5%;
+  #lower2 h1{
+    margin-left: 45%;
+    padding-bottom: 20px;
+  }
+
+  #lower2 input{
+    margin-left: 37.5%;
+  }
+
+  @media (max-width:600px){
+ 
+    .green-background {
+      display: none;
+    }
   
-}
-
-#lower2 h1{
-  margin-left: 45%;
-  padding-bottom: 20px;
-}
-
-#lower2 input{
-  margin-left: 37.5%;
-}
+    #greenindex{
+      height: 130px;
+    }
+  
+    .wrap {
+      height: 150vh;
+    }
+  
+    #main2{
+      background-color: #fff;
+    }
+  
+    .upper{
+      height: 130px;
+      margin-top: -2%;    
+    }
+  
+    .upper i{
+      font-size: 45px;
+    }
+  
+    .upper h2{
+      font-size: 30px;
+      margin-left: -5%;
+      
+    }
+    .upper a{
+      font-size: 25px;
+    }
+    
+    .lower .image{
+      width: 400px;
+      height: 400px;
+    }
+  
+    .lower button{
+      font-weight: 600;
+      font-size: 35px;
+    }
+  
+    #lower2{
+      margin-top: 100px;
+    }
+  
+    #lower2 h3{
+      margin-left: 25%;
+      font-size: 33px;
+      
+    }
+    
+    #lower2 h1{
+      margin-left: 33%;
+      font-size: 30px;
+      padding-bottom: 20px;
+    }
+    
+    #lower2 input{
+      margin-left: 27%;
+      padding: 22px;
+      width: 50%;
+      font-size: 23px;
+    }
+  
+    
+    .green-background {
+      display: none;
+    }
+  
+    .wrap {
+      height: auto; /* Remove fixed height */
+    }
+  
+    #main {
+      flex-direction: column; /* Change flex direction to stack vertically */
+      align-items: center; /* Center align items */
+    }
+  
+    #left {
+      width: 100%; /* Occupy full width */
+      margin-bottom: 20px; /* Add margin at the bottom for separation */
+    }
+  
+    #h1left {
+      position: static; /* Remove absolute positioning */
+      text-align: center; /* Center align text */
+      margin-top: 20px; /* Add margin at the top */
+    }
+  
+    .loggedinuserDiv {
+      flex-direction: column; /* Stack user details vertically */
+      justify-content: center; /* Center align items */
+      align-items: center; /* Center align items */
+      gap: 10px; /* Adjust gap between elements */
+    }
+  
+    .user h3 {
+      font-size: 14px; /* Decrease font size */
+    }
+  
+    .bottom {
+      padding-top: 10px; /* Add padding at the top */
+    }
+  
+    .chats {
+      display: flex; /* Ensure chats are displayed in a row */
+      flex-wrap: wrap; /* Wrap chats to the next line if they overflow */
+      gap: 10px; /* Adjust gap between chats */
+      justify-content: center; /* Center align chats */
+    }
+  
+    .chat {
+      flex: 0 0 45%; /* Adjust width of each chat item */
+    }
+  }
